@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<title> Test Project </title>
+		<meta charset="UTF-8" />
+		<meta name="description" content="This is the frontend part from the mini project" />
+		<meta name="keywords" content="REST, Repository, Component" />
+		<meta name="author" content="Varga Zsolt" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/index.css" type="text/css" />
+	</head>
+	<body>
+		<div class="container" id="root">
+			<header>
+				<section>
+					<h1> Simple User Table </h1>
+					<p>Ajax, Json, Rest, URL rewrite, router, dynamic datasource</p>
+				</section>
+			</header>
+
+			<main>
+				<section id="userRoot">
+					<!-- datasource section -->
+					<header>
+						<h2>
+							<label for="radio_mysql"> MySQL </label>
+							<input id="radio_mysql" name="datasource" type="radio" value="mysql" checked />
+							<input id="radio_api" name="datasource" type="radio" value="api" />
+							<label for="radio_api"> Api </label>
+							----
+							<label for="radio_asc"> ASC </label>
+							<input id="radio_asc" name="order" type="radio" value="ASC" checked />
+							<input id="radio_desc" name="order" type="radio" value="DESC" />
+							<label for="radio_desc"> DESC </label>
+						</h2>
+						<br />
+						<input name="search" type="text" placeholder="name filter" />
+						<br /><br />
+						<form id="userAddForm">
+							<!-- form inputs will be here for new user -->
+						</form>
+						<button id="submitButton" data-action="saveUser" data-url="user/save" data-form="userAddForm"> 
+							Create 
+						</button>						
+					</header>
+					<!-- datasource selection end -->
+
+					<main id="userList">
+						<!-- user list will here -->
+					</main>
+				</section>
+			</main>
+			
+			<footer>
+				<p>Thank you for watching this video or project! 2018 &copy;</p>
+			</footer>
+			
+		</div>
+	<script src="js/index.js"></script>
+	</body>
+</html>
