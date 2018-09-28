@@ -1,7 +1,7 @@
 <?php
 	namespace Model;
 
-	class UserMysql extends MysqlModel {
+	class UserMysql extends MysqlModel implements UserInterface {
 
 		protected static $columns = [
 			'id' => 'i',
@@ -11,10 +11,18 @@
 			'created' => 's',
 			'updated' => 's'
 		];
-
-		protected static $autofill;
-
-		protected static $validation = [];
+		public static $autofill;
+		//rpk - regex pattern key
+		public static $validation = [
+			'name' => [
+				'rule' => 'required|min:3|max:20|rpk:NAME',
+				'message' => 'Name must be between 3-20 character!'
+			],
+			'email' => [
+				'rule' => 'required|min:7|max:20|rpk:EMAIL',
+				'message' => 'Must be valid email!'
+			],
+		];
 
 		public function __construct() 
 		{
@@ -26,7 +34,7 @@
 			];
 		}
 		
-		public static function find(int $id)
+		public static function find($id)
 		{
 			return static::getById($id);
 		}
@@ -41,15 +49,15 @@
 			return static::get($filter, $order);
 		}
 		
-		public static function saveData(array $data)
+		public static function add(array $data)
 		{
 			$action = empty($data['id']) ? 'insert' : 'update';
 			return static::$action($data);
 		}
 
-		public static function remove(int $id)
+		public static function delete($id)
 		{
-			return static::delete($id);
+			return static::deleteById($id);
 		}
 	}
 

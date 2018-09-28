@@ -2,17 +2,18 @@
 
 	namespace Model;
 
-	class UserApi {
+	class UserApi implements UserInterface {
 		
 		protected static $DB;
+		public static $autofill;
+		public $validation = [];
 				
 		public function __construct() 
 		{
-			//unset($_SESSION['DB']);
 			static::$DB = json_decode($_SESSION['DB'] ?? "[]", true);
 		}
 		
-		public static function find(string $id, $index = false)
+		public static function find($id, $index = false)
 		{
 			foreach (self::$DB as $key => $user) {
 				if ($user['id'] == $id) {
@@ -48,7 +49,7 @@
 			return $result;
 		}
 
-		public static function saveData(array $data)
+		public static function add(array $data)
 		{
 			if (empty($data['id'])) {
 				$user = [];
@@ -72,7 +73,7 @@
 			return true;
 		}
 
-		public static function remove($id)
+		public static function delete($id)
 		{
 			$index = self::find($id, true);
 			if (empty($index) && $index !== 0) { return false; }

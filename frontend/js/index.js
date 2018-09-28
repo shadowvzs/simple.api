@@ -1,8 +1,9 @@
 {
 	const componentSettings = {
 			UserComponent: {
+				model: 'User',
 				datasource: ['mysql', 'api'],
-				host: 'l72.17.0.2/',
+				host: 'http://172.17.0.2/backend/',
 				//host: 'localhost/temp3/',
 				url: {
 					getUser: (sort = "ASC") => `/users/${sort}`,
@@ -63,15 +64,14 @@
 				url += (~url.indexOf("?") ? "&" : "?") + serialize(data);
 				data = null;
 			}
-			
+
 			httpRequest.onreadystatechange = function(event) {
 				if (this.readyState === 4) {
 					if (this.status === 200) {
-						if (!this.response) { error("no returned data"); return false; }
-						if (notifyMsg) { notify.add(...notifyMsg); }
-						if (!this.response.success) { return error(this.response); }
-						success (this.response.data || this.response);
-
+						if (!this.response || !this.response.status) { 
+							return error(this.response || "no returned data");  
+						}
+						success(this.response.data || this.response);
 					} else {
 						error(this.status);
 					}
@@ -112,7 +112,9 @@
 		const root = document.getElementById('userRoot'),
 			container = document.getElementById('userList'),
 			formContainer = document.getElementById('userAddForm'),
+			filterInput = root.querySelector('input[name="search"]'),
 			submitButton = document.getElementById('submitButton'),
+			
 			template = {
 				container(userList) {
 					return userList.map(user => template.box(user)).join('');
@@ -121,7 +123,7 @@
 					const keys = Object.keys(user),
 						id = user.id,
 						rows = keys.map(key => template.row(key, user[key])).join(''),
-						actions = template.link('delete', [id]);
+						actions = template.link('delete', id);
 					return `<div class="user-box" data-id=${id}>
 						${rows}
 						<div class="text-center mt-1">${actions}</div>
@@ -133,8 +135,8 @@
 						<span>${value}</span>
 					</div>`;
 				},
-				link(action, data = []) {
-					return `<button class="action_${action}" data-action="${action}User" data-id="id">${action}</button>`;
+				link(action, value = "") {
+					return `<button class="action_${action}" data-action="${action}User" data-id="${value}">${action}</button>`;
 				},
 				input(name, type, placeholder) {
 					return `<input name="${name}" type="${type}" placeholder="${placeholder}" value="" /><br />`;
@@ -142,17 +144,17 @@
 			},
 
 			handlers = {
-				getUser(url) {
-					request.get(url, null, renders.success, renders.error);
+				getUser(data) {
+					container.innerHTML = template.container(data);
 				},
-				/*
-				getId(url) {
-					request.get(url, null, renders.success, renders.error);
+				
+				getId(data) {
+					container.innerHTML = template.container(data);
 				},
-				filterUser(url) {
-					request.get(url, null, renders.success, renders.error);
+				
+				filterUser(data) {
+					container.innerHTML = template.container(data);
 				},
-				*/
 				saveUser(url) {
 					request.get(url, null, renders.success, renders.error);
 				},
@@ -161,6 +163,9 @@
 				},
 				error(data) {
 					let message = data.message || "Target machine not acceasble or refused the connection!";
+					if (Array.isArray(message)) {
+						message = message.join(', ');
+					}
 					alert(message);					
 				}
 			},
@@ -180,14 +185,13 @@
 			};
 		
 		let current = {
-			filter: "",
+			filter: filterInput.value,
 			datasource: getDatasource(),
 			order: getOrder(),
 		}
 			
 		function createForm() {
-			const ds = getDatasource(),
-				fields = formFields[ds] || false;
+			const fields = formFields[current.datasource] || false;
 			
 			if (!fields) { return; }
 			formContainer.innerHTML = Object.keys(fields)
@@ -203,29 +207,44 @@
 			return root.querySelector('input[name="order"]:checked').value || "ASC";
 		}
 		
-		function clickHandler(e) {
-			const d = e.target.dataset, { id = null, action = null, form = null} = d;
-			let data = [], method = "get";
+		function userEventHandler(e) {
+			let { id = null, action = null, form = null} = e.target.dataset,
+				name = e.target.name,
+				param = [], 
+				method = "get",
+				data = null;
+			console.log(current );
 			if (!action || !handlers[action]) { return; }
 			
 			if (action == "deleteUser") {
 				if (!id) { return handlers.error('Missing id!'); }
-				data = [id];
-			} else if (action == "saveUser") {
-				
+				console.log(id);
+				param = [id];
+			} else if (action == "filterUser") {
+				if (name == "datasource") {
+					current.datasource = getDatasource();
+					createForm();
+				} else if (name == "order") {
+					current.order = getOrder();
+				}
+				current.filter = filterInput.value;
+				if (!current.filter.length) {
+					action = "getUser";
+					param = [ current.order ];
+				} else {
+					param = [ current.filter, current.order ];
+				}
 			}
-			
-					//const ds = getDatasource(),
-					//	actionKey = action+"User",
-						//						url = settings.host+ds+settings.url[actionKey](...data);	
+
 			if (form) {
-				data = getFormContent(form);
+				data = {
+					[settings.model]: getFormContent(form)
+				};
 				method = "post";
 				e.preventDefault();
 			}
 			
-			console.log(handlers[action], handlers.error);
-			request[method](url, data, handlers[action], handlers.error);
+			request[method](getUrl(action, param), data, handlers[action], handlers.error);
 		}
 		
 		function getFormContent(containerID) {
@@ -235,24 +254,33 @@
 			if (!inputs.length) { return null; }
 			let data = {};
 			for (const input of inputs) {
-				console.log(input.name, input.value || "1");
 				data[input.name] = input.value;
 			}
 			return data;
 		}
 		
+		function getUrl(action, param=[]) {
+			return settings.host+current.datasource+settings.url[action](...param);
+		}
+
+		
 		(function init() {
 			container.innerHTML = template.container(users);
-			root.addEventListener('click', clickHandler);
-			submitButton.addEventListener('click', clickHandler);
+			root.addEventListener('click', userEventHandler);
+			filterInput.addEventListener('keyup', userEventHandler);
+			submitButton.addEventListener('click', userEventHandler);
 			createForm();
+			userEventHandler( { target: filterInput } );
 		})();
 		
 		return {
 			remove() {
 				container.removeEventListener('click', clickHandler);
-				submitButton.removeEventListener('click', clickHandler);				
+				submitButton.removeEventListener('click', clickHandler);	
+				filterInput.removeEventListener('keyup', userEventHandler);				
 			}
 		}
 	})(componentSettings.UserComponent, new Ajax);
+	
 }
+

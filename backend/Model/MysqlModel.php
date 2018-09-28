@@ -76,7 +76,7 @@
 			return self::queryActionWrapper($data, 'update', 'UPDATE ');
 		}
 
-		public static function delete(int $id)
+		public static function deleteById(int $id)
 		{
 			self::$query['conditions'] = [
 				'id' => [

@@ -24,17 +24,17 @@
 					<header>
 						<h2>
 							<label for="radio_mysql"> MySQL </label>
-							<input id="radio_mysql" name="datasource" type="radio" value="mysql" checked />
-							<input id="radio_api" name="datasource" type="radio" value="api" />
+							<input id="radio_mysql" name="datasource" type="radio" value="mysql" data-action="filterUser" data-url="user/save"  checked />
+							<input id="radio_api" name="datasource" type="radio" value="api" data-action="filterUser" data-url="user/save" />
 							<label for="radio_api"> Api </label>
 							----
 							<label for="radio_asc"> ASC </label>
-							<input id="radio_asc" name="order" type="radio" value="ASC" checked />
-							<input id="radio_desc" name="order" type="radio" value="DESC" />
+							<input id="radio_asc" name="order" type="radio" value="ASC" data-action="filterUser" data-url="user/save" checked />
+							<input id="radio_desc" name="order" type="radio" value="DESC" data-action="filterUser" />
 							<label for="radio_desc"> DESC </label>
 						</h2>
 						<br />
-						<input name="search" type="text" placeholder="name filter" />
+						<input name="search" type="text" placeholder="name filter" data-action="filterUser" />
 						<br /><br />
 						<form id="userAddForm">
 							<!-- form inputs will be here for new user -->

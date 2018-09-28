@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-//header("Access-Control-Allow-Origin: *");
-//header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header('Content-Type: application/json');
 
 define('DS', '/');
 define('PHP_EXT', '.php');
@@ -21,6 +21,7 @@ define('PATTERNS',
 	[
 		'EMAIL' => '/^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$)$/',
 		'NAME' => '/^([a-zA-Z \-]+)$/',
+		'NAME_EX' => '/^([a-zA-Z0-9_ \-]+)$/',
 		'INTEGER' => '/^([0-9]+)$/',
 		'SLUG' => '/^[a-zA-Z0-9-_]+$/',
 		'SORT' => '/^(ASC|DESC)$/',
@@ -28,41 +29,6 @@ define('PATTERNS',
 		'STR_AND_NUM' => '/^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+|[a-zA-Z]+[0-9]+[a-zA-Z]+)$/',
 		'LOWER_UPPER_NUM' => '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/',
 		'URL_QUERY' => '/^([a-zA-Z0-9\-\/_%]+)$/',
-	]
-);
-
-define('ROUTES', 
-	[
-		'users' => [
-			'GET',
-			'user@all'
-		],
-		'users/:sort' => [
-			'GET',
-			'user@all',
-			'SORT'
-		],
-		'user/save' => [
-			'POST',
-			'user@save',
-			'SORT'
-		],
-		'user/delete/:id' => [
-			'GET',
-			'user@delete',
-			'SLUG'
-		],
-		'search/user/:name' => [
-			'GET',
-			'user@search', 
-			'NAME'
-		],
-		'search/user/:name/:sort' => [
-			'GET',
-			'user@search', 
-			'NAME', 
-			'SORT'
-		],
 	]
 );
 
@@ -104,12 +70,20 @@ function fatalErrorHandler()
         $errline = $error["line"];
         $errstr  = $error["message"];
 		$message = $errfile."[".$errno."]: ".$errstr." - line: ".$errline;
-		\Model\App::response( false, false, $message);	
+		\Controller\App::response( false, false, $message);	
 	}
 }
 
+$Router = new \Router\Router;
+$urlData = $Router->dispatchedUrl;
+$action = $urlData['action'];
+$className = "\\Controller\\". $urlData['controller'];
+$Controller = new $className($Router);
 
-$App = new \Model\App;
+if (!is_callable(array($Controller, $action))) {
+	\Controller\App::error('Action not exist');
+}
+$Controller->$action();
 
 
 ?>

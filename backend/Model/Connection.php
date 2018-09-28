@@ -3,21 +3,17 @@
 
 	class Connection 
 	{
-		
 		private $con;
-
 		public function __construct() {
 			$this->open();
 		}
-
-		
 		public function open()
 		{
 
 			$DB = [
 				"HOST" => 'localhost',	
 				"USER" => 'root',		
-				"PASSWORD" => 'root',	
+				"PASSWORD" => '',	
 				"DATABASE" => "my_db"
 			];
 
