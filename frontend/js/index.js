@@ -155,11 +155,15 @@
 				filterUser(data) {
 					container.innerHTML = template.container(data);
 				},
-				saveUser(url) {
-					request.get(url, null, renders.success, renders.error);
+				saveUser(data) {
+					template.box(data)
+					container.insertAdjacentHTML('beforeend', template.box(data));
 				},
-				deleteUser(url) {
-					request.get(url, null, renders.success, renders.error);
+				deleteUser(data) {
+					if (data.id) {
+						const userBox = root.querySelector('.user-box[data-id="'+data.id+'"]');
+						if (userBox) { userBox.remove(); }
+					}
 				},
 				error(data) {
 					let message = data.message || "Target machine not acceasble or refused the connection!";
@@ -179,8 +183,7 @@
 				mysql: {
 					username: ['text', 'Username'],
 					name: ['text', 'Name'],
-					mail: ['email', 'Email Address'],
-					password: ['password', 'Password'],
+					email: ['email', 'Email Address'],
 				}
 			};
 		
@@ -213,7 +216,7 @@
 				param = [], 
 				method = "get",
 				data = null;
-			console.log(current );
+				
 			if (!action || !handlers[action]) { return; }
 			
 			if (action == "deleteUser") {
@@ -263,12 +266,10 @@
 			return settings.host+current.datasource+settings.url[action](...param);
 		}
 
-		
 		(function init() {
 			container.innerHTML = template.container(users);
 			root.addEventListener('click', userEventHandler);
 			filterInput.addEventListener('keyup', userEventHandler);
-			submitButton.addEventListener('click', userEventHandler);
 			createForm();
 			userEventHandler( { target: filterInput } );
 		})();
@@ -276,7 +277,6 @@
 		return {
 			remove() {
 				container.removeEventListener('click', clickHandler);
-				submitButton.removeEventListener('click', clickHandler);	
 				filterInput.removeEventListener('keyup', userEventHandler);				
 			}
 		}

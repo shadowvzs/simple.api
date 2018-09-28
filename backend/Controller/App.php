@@ -8,31 +8,20 @@
 		protected $datasource;
 		public $dispatchedUrl;
 		
-		public function __construct($Router)
+		// if not dynamic then it would be \Model\UserMysql
+		public function __construct(array $dispatchedUrl, $Repo)
 		{
-			$this->Router = $Router;
-			$this->datasource = ucfirst($Router->datasource);
-			$this->dispatchedUrl = $Router->dispatchedUrl;
+			$this->dispatchedUrl = $dispatchedUrl;
 			$className = substr(static::class, strlen(__NAMESPACE__) + 1);
-			$class = '\\Model\\' . $className . $this->datasource;
-			$repo = $this->$className = new $class;
-			//-----------temp---------
-			/*
-			$this->Router->method = "POST";
-			
-			$data = [
-				'User' => [
-					'name' => '1',
-					'email' => 'valami@mail.com'
-				]
-			];
-			$_POST = $data;
-			*/
-			//--------------------
-			//$this->request['data'] = $_POST ?? [];
+			$this->$className = $Repo;
+			$data = $_POST ?? [];
+			$existData = !empty($data[$className]);
+			if (!empty($Repo::$validation) && $existData) {
+				$allow = $this->validation($data['User'], $Repo::$validation);
+			}
 
-			if (!empty($repo::$validation) && !empty($this->request['data'][$className])) {
-				$allow = $this->validation($data['User'], $repo::$validation);
+			if ($existData) {
+				$this->request['data'] = $data['User'];
 			}
 		}
 

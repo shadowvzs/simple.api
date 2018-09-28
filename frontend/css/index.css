@@ -106,8 +106,12 @@ footer {
 		font-size: 16px;
 	}
 	
-	#userRoot main {
+	#userRoot #userList {
 		text-align: left;
+	}
+	
+	#userRoot #userList * {
+		font-size: 14px;
 	}
 	
 		#userRoot main .user-box {
@@ -132,7 +136,7 @@ footer {
 			margin: 4px 0;
 		}	
 
-		#userRoot #submitButton {
+		#userRoot button[data-action="saveUser"] {
 			position: absolute;
 			bottom: 0;
 			left: 50%;

@@ -76,10 +76,11 @@ function fatalErrorHandler()
 
 $Router = new \Router\Router;
 $urlData = $Router->dispatchedUrl;
-$action = $urlData['action'];
-$className = "\\Controller\\". $urlData['controller'];
-$Controller = new $className($Router);
+$controllerName = "\\Controller\\". $urlData['controller'];
+$repositoryName = "\\Model\\". $urlData['controller'] . ucfirst($Router->datasource);
+$Controller = new $controllerName($urlData, new $repositoryName);
 
+$action = $urlData['action'];
 if (!is_callable(array($Controller, $action))) {
 	\Controller\App::error('Action not exist');
 }

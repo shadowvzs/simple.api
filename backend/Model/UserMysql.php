@@ -1,10 +1,11 @@
 <?php
 	namespace Model;
 
-	class UserMysql extends MysqlModel implements UserInterface {
+	class UserMysql extends MysqlBase implements UserInterface {
 
 		protected static $columns = [
 			'id' => 'i',
+			'username' => 's',
 			'name' => 's',
 			'email' => 's',
 			'password' => 's',
@@ -12,14 +13,17 @@
 			'updated' => 's'
 		];
 		public static $autofill;
-		//rpk - regex pattern key
 		public static $validation = [
+			'username' => [
+				'rule' => 'required|min:3|max:20|rpk:ALPHA_NUM',	//rpk = regex pattern key
+				'message' => 'Name must be between 3-20 alpha-numeric character!'
+			],
 			'name' => [
-				'rule' => 'required|min:3|max:20|rpk:NAME',
+				'rule' => 'required|min:3|max:30|rpk:NAME',
 				'message' => 'Name must be between 3-20 character!'
 			],
 			'email' => [
-				'rule' => 'required|min:7|max:20|rpk:EMAIL',
+				'rule' => 'required|min:7|max:50|rpk:EMAIL',
 				'message' => 'Must be valid email!'
 			],
 		];
@@ -28,7 +32,7 @@
 		{
 			parent::__construct('users');
 			self::$autofill = [
-				'password' => ['insert', md5(uniqid())],
+				'password' => ['insert', substr(md5(uniqid()), 0, 20)],
 				'created' => ['insert', date("Y-m-d H:i:s")],
 				'updated' => ['update', date("Y-m-d H:i:s")],
 			];

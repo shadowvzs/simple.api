@@ -17,8 +17,7 @@
 			],
 			'user/save' => [
 				'POST',
-				'User@add',
-				'SORT'
+				'User@add'
 			],
 			'user/delete/:id' => [
 				'GET',
@@ -97,7 +96,13 @@
 				
 				foreach ($urlArray as $urlFragment) {
 			
-					$routeDataPair = $routeData[$index - $actionInUrl];
+					$diff = $index - $actionInUrl;
+					if (empty($routeData[$diff])) {
+						return $this->dispatchedUrl = $dispatchedUrl;
+					}
+					
+					$routeDataPair = $routeData[$diff];
+
 
 					if ($index == 0) {
 						if ($urlFragment !== $queryArray[$index]) {

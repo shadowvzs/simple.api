@@ -4,10 +4,10 @@
 
 	class User extends App
 	{
-		
+
 		public function index()
 		{
-			$order = static::$dispatchedUrl['sort'] ?? 'ASC';
+			$order = $this->dispatchedUrl['sort'] ?? 'ASC';
 			static::success( $this->User::all($order));
 		}
 
@@ -17,7 +17,7 @@
 		}
 
 		public function search() {
-			$urlData = static::$dispatchedUrl;
+			$urlData = $this->dispatchedUrl;
 			$order = $urlData['sort'] ?? 'ASC';
 			$name = $urlData['name'] ?? '';
 			$filter = [
@@ -26,25 +26,18 @@
 			static::success($this->User::filter($filter, $order));
 		}
 
-		public function add(array $data = [])
+		public function add()
 		{
-			if (empty($data)) {
-				if (empty($_POST['User'])) {
-					static::error('Nothing to save');
-				}
-				$data = $_POST['User'];
-			}
-
-			$result = $this->User::add($data);
-			static::response (false, $result, $result ? 'Executed' : 'Failed');
+			$result = $this->User::add($this->request['data']);
+			static::response ($result, !!$result, $result ? 'Executed' : 'Failed');
 		}
 
 		public function delete()
 		{
-			$id = static::$dispatchedUrl['id'] ?? false;
+			$id = $this->dispatchedUrl['id'] ?? false;
 			if (!$id) { return static::error('Need id for delete user'); }
 			$result = $this->User::delete($id);
-			static::response (false, $result, $result ? 'Executed' : 'Failed');
+			static::response (['id' => $id], $result, $result ? 'Executed' : 'Failed');
 		}
 
 

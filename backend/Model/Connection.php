@@ -13,7 +13,7 @@
 			$DB = [
 				"HOST" => 'localhost',	
 				"USER" => 'root',		
-				"PASSWORD" => '',	
+				"PASSWORD" => 'root',	
 				"DATABASE" => "my_db"
 			];
 
@@ -58,6 +58,10 @@
 
 		}
 
+
+		public function inserted_id() {
+			return $this->con->insert_id;
+		}
 
 		public function close()
 		{
