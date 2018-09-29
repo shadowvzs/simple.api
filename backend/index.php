@@ -42,7 +42,7 @@ spl_autoload_register(function ($className) {
 		$file = str_replace("\\", "/", $file);
 	}
 
-	if(file_exists($file)) {
+	if (file_exists($file)) {
 		include_once $file;
 	}
 
@@ -70,7 +70,7 @@ function fatalErrorHandler()
         $errline = $error["line"];
         $errstr  = $error["message"];
 		$message = $errfile."[".$errno."]: ".$errstr." - line: ".$errline;
-		\Controller\App::response( false, false, $message);	
+		\Controller\App::response($message);	
 	}
 }
 
