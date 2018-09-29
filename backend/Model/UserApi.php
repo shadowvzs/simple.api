@@ -28,7 +28,7 @@
 			$users = self::$DB;
 			usort($users, function($a, $b) use ($order) {
 				$cmp = strcmp($a['registeredAt'], $b['registeredAt']);
-				return $order == 'DESC' ? $cmp >= 0 :  $cmp < 0;
+				return $order == 'ASC' ? $cmp >= 0 :  $cmp < 0;
 			});
 			return $users;
 		}
@@ -45,7 +45,7 @@
 				}, ARRAY_FILTER_USE_BOTH);
 			usort($users, function($a, $b) use ($order) {
 				$cmp = strcmp($a['registeredAt'], $b['registeredAt']);
-				return $order == 'DESC' ? $cmp >= 0 :  $cmp < 0;
+				return $order == 'ASC' ? $cmp >= 0 :  $cmp < 0;
 			});	
 			return array_values($result);
 		}
