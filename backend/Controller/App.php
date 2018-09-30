@@ -73,31 +73,6 @@
 			}
 		}
 
-		public function sendData()
-		{
-			$urlData = $this->$dispatchedUrl;
-			$action = $urlData['action'];
-			$controller = ucfirst($urlData['controller']);
-			$repoClass = "\\Repo\\" . $controller . 'Repository';
-			die(__class__);
-			$datasourceClass = 'Model\\' . $controller.ucfirst($this->datasource);
-			$obj = new $repoClass($datasourceClass);
-			$obj->$action();
-			//unset($_SESSION['DB']);
-			
-			/*
-			$obj->save([
-			//	'id' => '5bab64178323f',
-				'name' => 'aasd',
-				'email' => '1vbn@cim.hi',
-				'registeredAt' => '2016. 08. 01 00:00:'
-			]);
-			*/
-			
-			var_dump($_SESSION);
-			
-		}
-
 		protected function loadAuthData()
 		{
 

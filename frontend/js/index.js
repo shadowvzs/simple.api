@@ -1,40 +1,20 @@
 {
 	const componentSettings = {
-			UserComponent: {
-				model: 'User',
-				datasource: ['mysql', 'api'],
-				host: 'http://172.17.0.2/backend/',
-				//host: 'localhost/temp3/',
-				url: {
-					getUser: (sort = "ASC") => `/users/${sort}`,
-					filterUser: (name, sort = "ASC") => `/search/user/${name}/${sort}`,
-					saveUser: () => `/user/save`,
-					deleteUser: (id) => `/user/delete/${id}`,
-				}
+		UserComponent: {
+			model: 'User',
+			datasource: ['mysql', 'api'],
+			host: 'http://172.17.0.2/backend/',
+			//host: 'localhost/temp3/',
+			url: {
+				getUser: (sort = "ASC") => `/users/${sort}`,
+				filterUser: (name, sort = "ASC") => `/search/user/${name}/${sort}`,
+				saveUser: () => `/user/save`,
+				deleteUser: (id) => `/user/delete/${id}`,
 			}
-		};
+		}
+	};
 	
-	let users = [
-		{
-			id: 1,
-			name: "pista",
-			email: "valami@valami.hu",
-			created: "2018-09-26 10:10:14"
-		},
-		{
-			id: 2,
-			name: "juci",
-			email: "hurka@valami.hu",
-			created: "2018-09-26 12:10:14"
-		},
-		{
-			id: 3,
-			name: "marcsa",
-			email: "izemize@valami.hu",
-			created: "2018-09-26 14:10:14"
-		},
-	]
-	
+
 	function Ajax () {
 
 		function serialize(obj, prefix) {
