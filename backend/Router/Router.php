@@ -52,13 +52,11 @@
 		{
 
 			$query = $_GET['query'] ?? false;
-			$method = in_array(METHOD, ['POST' , 'PUT']) ? 'POST' : 'GET';
 
 			if (!$query || !self::isValidData($query, 'URL_QUERY')) {
 				return App::error( 'Invalid url');
 			}
 
-			$dispatchedUrl = [ 'method' => $method ];
 			$queryArray = explode('/', $query);
 
 			if (count($queryArray) < 2) {
@@ -85,7 +83,7 @@
 				$actionInUrl = false;
 				$routeMethod = strtoupper(array_shift($routeData));
 
-				if ($routeMethod !== $method) {
+				if ($routeMethod !== METHOD) {
 					continue;
 				}
 				
@@ -139,7 +137,7 @@
 		}
 
 		
-		public static function isValidData(string $data, $pattern) {
+		protected static function isValidData(string $data, $pattern) {
 			return isset(PATTERNS[$pattern]) 
 				? preg_match(PATTERNS[$pattern], $data) > 0
 				: true;

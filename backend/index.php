@@ -11,7 +11,10 @@ define('BASE_PATH', __DIR__ . DS);
 define('DEBUG', true);
 define('LINUX', true);
 define('LOG', false);
-define('METHOD', strtoupper($_SERVER['REQUEST_METHOD']));
+define('METHOD', in_array(
+	strtoupper($_SERVER['REQUEST_METHOD']), 
+	['POST' , 'PUT']) ? 'POST' : 'GET'
+);
 define('DATASOURCE_LIST', [
 	'mysql' => ['mysql datasource'],	
 	'api' => ['api datasource, in our case now session'],

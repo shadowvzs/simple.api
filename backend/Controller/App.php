@@ -17,11 +17,11 @@
 			$data = $_POST ?? [];
 			$existData = !empty($data[$className]);
 			if (!empty($Repo::$validation) && $existData) {
-				$allow = $this->validation($data['User'], $Repo::$validation);
+				$allow = $this->validation($data[$className], $Repo::$validation);
 			}
 
 			if ($existData) {
-				$this->request['data'] = $data['User'];
+				$this->request['data'] = $data[$className];
 			}
 		}
 

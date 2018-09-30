@@ -1,4 +1,5 @@
 <?php
+
 	namespace Model;
 
 	class Connection 
@@ -25,7 +26,7 @@
 			);
 
 			if ($this->con->connect_error) {
-				App::response( false, false, "Connection failed: ".$this->con->connect_error);
+				\Controller\App::error("Connection failed: ".$this->con->connect_error);
 			} 
 
 			$this->con->set_charset("utf8");
