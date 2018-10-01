@@ -5,16 +5,15 @@
 * long (both): https://www.youtube.com/watch?v=YXPuN9jDN8w
 
 ## Long video content:
-* [I'm an inline-style link](https://youtu.be/YXPuN9jDN8w?t=1s): basics (folders, htaccess)
-* https://youtu.be/YXPuN9jDN8w?t=5m46s: index.php
-* https://youtu.be/YXPuN9jDN8w?t=18m36s: \Router\Router.php
-* https://youtu.be/YXPuN9jDN8w?t=37m51s: \Controller\App.php
-* https://youtu.be/YXPuN9jDN8w?t=51m38s: \Controller\User.php
-* https://youtu.be/YXPuN9jDN8w?t=1h1m8s: \Model\UserInterface.php
-* https://youtu.be/YXPuN9jDN8w?t=1h3m29s: \Model\*.php (UserMysql, UserApi, MysqlBasep, Connection)
-* https://youtu.be/YXPuN9jDN8w?t=1h15m40s: Frontend
+* [00:00:00](https://youtu.be/YXPuN9jDN8w?t=1s): basics (folders, htaccess)
+* [00:05:46](https://youtu.be/YXPuN9jDN8w?t=5m46s): index.php
+* [00:18:36](https://youtu.be/YXPuN9jDN8w?t=18m36s): \Router\Router.php
+* [00:37:51](https://youtu.be/YXPuN9jDN8w?t=37m51s): \Controller\App.php
+* [00:51:38](https://youtu.be/YXPuN9jDN8w?t=51m38s): \Controller\User.php
+* [01:01:08](https://youtu.be/YXPuN9jDN8w?t=1h1m8s): \Model\UserInterface.php
+* [01:03:29](https://youtu.be/YXPuN9jDN8w?t=1h3m29s): \Model\*.php (UserMysql, UserApi, MysqlBasep, Connection)
+* [01:15:40](https://youtu.be/YXPuN9jDN8w?t=1h15m40s): Frontend
 
-[I'm an inline-style link](https://www.google.com)
 
 ## Short description
 
