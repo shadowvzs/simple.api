@@ -1,8 +1,8 @@
 # simple.api
 
-YouTube videos: 
-short (frontend): https://www.youtube.com/watch?v=D_SFWlzyZt0
-long (both): https://www.youtube.com/watch?v=YXPuN9jDN8w
+## YouTube videos: 
+* short (frontend): https://www.youtube.com/watch?v=D_SFWlzyZt0
+* long (both): https://www.youtube.com/watch?v=YXPuN9jDN8w
 
 ## Long video content:
 * https://youtu.be/YXPuN9jDN8w?t=1s: basics (folders, htaccess)
