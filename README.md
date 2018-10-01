@@ -5,7 +5,7 @@
 * long (both): https://www.youtube.com/watch?v=YXPuN9jDN8w
 
 ## Long video content:
-* https://youtu.be/YXPuN9jDN8w?t=1s: basics (folders, htaccess)
+* [I'm an inline-style link](https://youtu.be/YXPuN9jDN8w?t=1s): basics (folders, htaccess)
 * https://youtu.be/YXPuN9jDN8w?t=5m46s: index.php
 * https://youtu.be/YXPuN9jDN8w?t=18m36s: \Router\Router.php
 * https://youtu.be/YXPuN9jDN8w?t=37m51s: \Controller\App.php
@@ -14,6 +14,7 @@
 * https://youtu.be/YXPuN9jDN8w?t=1h3m29s: \Model\*.php (UserMysql, UserApi, MysqlBasep, Connection)
 * https://youtu.be/YXPuN9jDN8w?t=1h15m40s: Frontend
 
+[I'm an inline-style link](https://www.google.com)
 
 ## Short description
 
